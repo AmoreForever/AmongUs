@@ -33,17 +33,17 @@ class AmongUsMod(loader.Module):
 				await bruh(message, reply.sender)
 				return
 			text = reply.raw_text
-		
+
 		if text.split(" ")[0] in clrs:
 			clr = clrs[text.split(" ")[0]]
 			text = " ".join(text.split(" ")[1:])
-			
+
 		if text == "colors":
 			await message.edit("Доступные цвета:\n"+("\n".join([f"• <code>{i}</code>" for i in list(clrs.keys())])))
 			return
-		
+
 		url = "https://raw.githubusercontent.com/KeyZenD/AmongUs/master/"
-		font = ImageFont.truetype(BytesIO(get(url+"bold.ttf").content), 60)
+		font = ImageFont.truetype(BytesIO(get(f"{url}bold.ttf").content), 60)
 		imposter = Image.open(BytesIO(get(f"{url}{clr}.png").content))
 		text_ = "\n".join(["\n".join(wrap(part, 30)) for part in text.split("\n")])
 		w, h = ImageDraw.Draw(Image.new("RGB", (1,1))).multiline_textsize(text_, font, stroke_width=2)
@@ -65,6 +65,6 @@ class AmongUsMod(loader.Module):
 async def bruh(message, user):
 	fn = user.first_name
 	ln = user.last_name
-	name = fn + (" "+ln if ln else "")
-	name = "<b>"+name
+	name = fn + (f" {ln}" if ln else "")
+	name = f"<b>{name}"
 	await message.edit(name+choice([" ", " не "])+"был предателем!</b>")
